@@ -1,0 +1,51 @@
+/*C3*/SET SCHEMA PUBLIC
+drop table RECIPE if exists
+drop table PATIENT if exists
+drop table DOCTOR if exists
+create table PATIENT ( ID BIGINT IDENTITY constraint PATIENT_PK primary key, NAME VARCHAR(50) not null, SURNAME VARCHAR(50) not null, PATRONYMIC VARCHAR(50) not null, PHONE VARCHAR(11) not null )
+create table DOCTOR ( ID BIGINT IDENTITY constraint DOCTOR_PK primary key, NAME VARCHAR(50) not null, SURNAME VARCHAR(50) not null, PATRONYMIC VARCHAR(50) not null, SPECIALTY VARCHAR(50) not null )
+create table RECIPE ( ID BIGINT IDENTITY constraint TABLE_NAME_PK primary key, DESCRIPTION VARCHAR(200) not null, PATIENT_ID BIGINT not null constraint RECIPE_PATIENT_ID_FK references PATIENT, DOCTOR_ID BIGINT not null constraint RECIPE_DOCTOR_ID_FK references DOCTOR, CREATION_DATE DATE, VALIDITY BIGINT not null, PRIORITY VARCHAR(20) not null )
+INSERT INTO PATIENT VALUES(0,'Leon','Yurocjkin','Arrighetti','55863436981')
+COMMIT
+INSERT INTO PATIENT VALUES(1,'Artemis','Ossenna','Coulman','30858881564')
+COMMIT
+INSERT INTO PATIENT VALUES(2,'Kris','Gatley','Thomasen','42066281002')
+COMMIT
+INSERT INTO PATIENT VALUES(3,'Wolfy','Mallinson','Tossell','12429119336')
+COMMIT
+INSERT INTO PATIENT VALUES(4,'Rhett','Tregonna','Fardy','82553122107')
+COMMIT
+INSERT INTO PATIENT VALUES(5,'Johnny','Coslitt','Sauniere','40246183017')
+COMMIT
+INSERT INTO PATIENT VALUES(6,'Ronalda','Esel','Querrard','65861912412')
+COMMIT
+INSERT INTO PATIENT VALUES(7,'Megen','Boyett','Antoniak','98683617279')
+COMMIT
+INSERT INTO PATIENT VALUES(8,'Ashely','Copper','Blenkinsop','60032187181')
+COMMIT
+INSERT INTO PATIENT VALUES(9,'Allis','Dunford','Polin','95131010029')
+COMMIT
+INSERT INTO DOCTOR VALUES(0,'Zacherie','Housbie','MacCahee','SURGEON')
+COMMIT
+INSERT INTO DOCTOR VALUES(1,'Slade','Pantin','Barukh','DENTIST')
+COMMIT
+INSERT INTO DOCTOR VALUES(2,'Ermengarde','Garham','Genty','THERAPIST')
+COMMIT
+INSERT INTO DOCTOR VALUES(3,'Ettore','Batchley','Gutch','NEUROLOGIST')
+COMMIT
+INSERT INTO DOCTOR VALUES(4,'Vassily','Preist','Rose','DENTIST')
+COMMIT
+INSERT INTO DOCTOR VALUES(5,'Aluin','Fantonetti','Jagson','DENTIST')
+COMMIT
+INSERT INTO DOCTOR VALUES(6,'Galen','Bosman','Eldridge','THERAPIST')
+COMMIT
+INSERT INTO DOCTOR VALUES(7,'Georgy','Colbridge','Nussen','SURGEON')
+COMMIT
+INSERT INTO DOCTOR VALUES(8,'Ardith','Chace','Medina','SURGEON')
+COMMIT
+INSERT INTO DOCTOR VALUES(9,'Zilvia','Evins','Bellenie','DENTIST')
+COMMIT
+INSERT INTO RECIPE VALUES(0,'dolor vel est donec odio justo sollicitudin ut suscipit a feugiat et eros vestibulum ac est lacinia nisi',8,5,'2019-08-19',2,'NORMAL')
+COMMIT
+INSERT INTO RECIPE VALUES(1,'cum sociis natoque penatibus et magnis dis parturient montes nascetur ridiculus mus vivamus vestibulum',3,3,'2019-09-08',1,'NORMAL')
+COMMIT
