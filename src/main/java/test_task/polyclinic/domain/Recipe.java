@@ -22,7 +22,7 @@ import java.time.LocalDate;
 public class Recipe {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Size(min = 1, max = 200)
     @Column(length = 200, name = "description")

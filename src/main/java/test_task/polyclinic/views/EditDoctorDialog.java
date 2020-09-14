@@ -60,11 +60,11 @@ public class EditDoctorDialog extends Window {
                     grid.getDataProvider().refreshAll();
                     close();
                 } catch (ValidationException e) {
-                    Notification.show("Task failed successfully!");
+                    Notification.show("Check the correctness of the fields");
                     e.printStackTrace();
                 }
             } else
-                Notification.show("Task failed successfully!");
+                Notification.show("Check the correctness of the fields");
         });
     }
 }

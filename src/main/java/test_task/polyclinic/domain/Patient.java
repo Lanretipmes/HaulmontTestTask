@@ -18,7 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 public class Patient {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Size(min = 1, max = 50)
 //    @Type(type = "char")

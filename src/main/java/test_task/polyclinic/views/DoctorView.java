@@ -16,6 +16,7 @@ public class DoctorView extends VerticalLayout {
     private Button add = new Button("Add");
     private Button delete = new Button("Delete");
     private Button edit = new Button("Edit");
+    private Button statistics = new Button("Statistics");
     private Doctor selectedDoctor;
 
     public DoctorView(DoctorService doctorService, RecipeService recipeService){
@@ -27,12 +28,17 @@ public class DoctorView extends VerticalLayout {
         buttonsLayout.addComponent(add);
         buttonsLayout.addComponent(edit);
         buttonsLayout.addComponent(delete);
+        buttonsLayout.addComponent(statistics);
         addComponent(buttonsLayout);
 
         grid.setDataProvider(dataProvider);
         grid.setSizeFull();
         grid.setColumnOrder("id", "surname", "name", "patronymic", "specialty");
         grid.removeColumn("recipes");
+
+        statistics.addClickListener(clickEvent -> {
+            getUI().addWindow(new DoctorStatisticsWindow(doctorService));
+        });
 
         add.addClickListener(clickEvent -> {
                     getUI().addWindow(new AddDoctorDialog(dataProvider, doctorService));
@@ -46,8 +52,10 @@ public class DoctorView extends VerticalLayout {
             if (selectedDoctor != null)
             for(Recipe recipe : recipeService.findAll())
             {
-                if (recipe.getDoctor().getId() == selectedDoctor.getId())
+                if (recipe.getDoctor().getId() == selectedDoctor.getId()) {
                     delete.setEnabled(false);
+                    break;
+                }
             }
         }
         );
@@ -55,13 +63,9 @@ public class DoctorView extends VerticalLayout {
         delete.addClickListener(clickEvent -> {
 
             if (selectedDoctor != null) {
-                try {
                     doctorService.delete(selectedDoctor);
                     grid.setItems(doctorService.findAll());
-                    grid.getDataProvider().refreshAll(); //TODO deal with refresh?
-                } catch (Exception exception) {
-                    Notification.show("Could not execute statement. " + exception);
-                }
+                    grid.getDataProvider().refreshAll();
             }
         });
 
@@ -70,14 +74,9 @@ public class DoctorView extends VerticalLayout {
             Doctor doctor = selectedDoctor;
             if (doctor != null) {
                 getUI().addWindow(new EditDoctorDialog(grid, doctorService, doctor));
-                grid.deselectAll();
             } else {
                 Notification.show("Select line");
             }
         });
-    }
-
-    public void updateTable(){
-        grid.getDataProvider().refreshAll();
     }
 }

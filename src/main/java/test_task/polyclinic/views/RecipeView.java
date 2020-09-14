@@ -5,6 +5,7 @@ import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.*;
 import com.vaadin.ui.components.grid.HeaderRow;
 import org.apache.commons.lang3.StringUtils;
+import test_task.polyclinic.domain.Priority;
 import test_task.polyclinic.domain.Recipe;
 import test_task.polyclinic.services.DoctorService;
 import test_task.polyclinic.services.PatientService;
@@ -19,10 +20,11 @@ public class RecipeView extends VerticalLayout {
     private Button delete = new Button("Delete");
     private Button edit = new Button("Edit");
     private Recipe selectedRecipe;
+    private ListDataProvider<Recipe> dataProvider;
 
     public RecipeView(RecipeService recipeService, PatientService patientService, DoctorService doctorService){
 
-        ListDataProvider<Recipe> dataProvider = new ListDataProvider<>(recipeService.findAll());
+        dataProvider = new ListDataProvider<>(recipeService.findAll());
 
         addComponent(grid);
 
@@ -46,12 +48,12 @@ public class RecipeView extends VerticalLayout {
         descriptionFilter.setSizeFull();
 
         TextField patientFilter = new TextField();
-        patientFilter.addValueChangeListener(event -> dataProvider.addFilter(recipe -> StringUtils.containsIgnoreCase(recipe.getPatient().toString(), descriptionFilter.getValue())));
+        patientFilter.addValueChangeListener(event -> dataProvider.addFilter(recipe -> StringUtils.containsIgnoreCase(recipe.getPatient().toString(), patientFilter.getValue())));
         filters.getCell("patient").setComponent(patientFilter);
         patientFilter.setSizeFull();
 
         TextField priorityFilter = new TextField();
-        priorityFilter.addValueChangeListener(event -> dataProvider.addFilter(recipe -> StringUtils.containsIgnoreCase(String.valueOf(recipe.getPriority()), descriptionFilter.getValue())));
+        priorityFilter.addValueChangeListener(event -> dataProvider.addFilter(recipe -> StringUtils.containsIgnoreCase(String.valueOf(recipe.getPriority()), priorityFilter.getValue())));
         filters.getCell("priority").setComponent(priorityFilter);
         priorityFilter.setSizeFull();
 
@@ -69,12 +71,9 @@ public class RecipeView extends VerticalLayout {
         delete.addClickListener(clickEvent -> {
 
             if (selectedRecipe != null) {
-                try {
                     recipeService.delete(selectedRecipe);
-                    grid.getDataProvider().refreshAll(); //TODO deal with refresh?
-                } catch (Exception exception) {
-                    Notification.show("Could not execute statement. " + exception);
-                }
+                    grid.setItems(recipeService.findAll());
+                    grid.getDataProvider().refreshAll();
             }
         });
 
@@ -82,14 +81,9 @@ public class RecipeView extends VerticalLayout {
 
             if (selectedRecipe != null) {
                 getUI().addWindow(new EditRecipeDialog(grid, recipeService, doctorService, patientService, selectedRecipe));
-                grid.deselectAll();
             } else {
                 Notification.show("Select line");
             }
         });
-    }
-
-    public void updateTable(){
-        grid.getDataProvider().refreshAll();
     }
 }

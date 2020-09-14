@@ -17,7 +17,7 @@ import java.util.List;
 public class Doctor {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Size(min = 1, max = 50)
@@ -36,7 +36,7 @@ public class Doctor {
 //    @Type(type = "char")
     @Column(length = 50, name = "specialty")
     @NonNull private Specialty specialty;
-    @OneToMany(mappedBy = "doctor", cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "doctor", cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
     @ToString.Exclude
     private List<Recipe> recipes;
 

@@ -45,7 +45,6 @@ public class PatientView extends VerticalLayout {
         grid.addItemClickListener(itemClick -> {
             delete.setEnabled(true);
             selectedPatient = itemClick.getItem();
-            Notification.show("" + selectedPatient);
 
             if(selectedPatient != null)
             for(Recipe recipe : recipeService.findAll())
@@ -60,12 +59,9 @@ public class PatientView extends VerticalLayout {
         delete.addClickListener(clickEvent -> {
 
             if (selectedPatient != null) {
-                try {
                     patientService.delete(selectedPatient);
+                    grid.setItems(patientService.findAll());
                     grid.getDataProvider().refreshAll();
-                } catch (Exception exception) {
-                    Notification.show("Could not execute statement. " + exception);
-                }
             }
         });
 
@@ -73,14 +69,9 @@ public class PatientView extends VerticalLayout {
 
             if (selectedPatient != null) {
                 getUI().addWindow(new EditPatientDialog(grid, patientService, selectedPatient));
-                grid.deselectAll();
             } else {
                 Notification.show("Select line");
             }
         });
-    }
-
-    public void updateTable(){
-        grid.getDataProvider().refreshAll();
     }
 }

@@ -44,12 +44,10 @@ public class AddDoctorDialog extends Window {
         verticalLayout.addComponent(specialty);
         verticalLayout.addComponent(buttonsLayout);
 
-
-
         binder.forField(name).withValidator(new BeanValidator(Doctor.class, "name")).bind(Doctor::getName, Doctor::setName);
         binder.forField(surname).withValidator(new BeanValidator(Doctor.class, "surname")).bind(Doctor::getSurname, Doctor::setSurname);
         binder.forField(patronymic).withValidator(new BeanValidator(Doctor.class, "patronymic")).bind(Doctor::getPatronymic, Doctor::setPatronymic);
-        binder.forField(specialty).withValidator(new BeanValidator(Doctor.class, "phone")).bind(Doctor::getSpecialty, Doctor::setSpecialty);
+        binder.forField(specialty).withValidator(new BeanValidator(Doctor.class, "specialty")).bind(Doctor::getSpecialty, Doctor::setSpecialty);
 
         add.addClickListener(clickEvent -> {
             if (binder.isValid()) {

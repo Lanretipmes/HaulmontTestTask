@@ -83,7 +83,7 @@ public class EditRecipeDialog extends Window {
                 try {
                     binder.writeBean(recipe);
                 } catch (ValidationException e) {
-                    Notification.show("Task failed successfully!");
+                    Notification.show("Check the correctness of the fields");
                     e.printStackTrace();
                 }
                 recipeService.update(recipe.getId(), recipe);
@@ -92,7 +92,7 @@ public class EditRecipeDialog extends Window {
                 close();
             }
             else
-                Notification.show("Error"); //TODO specify
+                Notification.show("Check the correctness of the fields");
         });
     }
 
