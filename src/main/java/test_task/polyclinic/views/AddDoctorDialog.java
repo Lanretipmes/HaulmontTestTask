@@ -1,16 +1,20 @@
 package test_task.polyclinic.views;
 
 import com.vaadin.data.Binder;
-import com.vaadin.data.ValidationException;
 import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.data.validator.BeanValidator;
 import com.vaadin.ui.*;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import test_task.polyclinic.domain.Doctor;
 import test_task.polyclinic.domain.Specialty;
 import test_task.polyclinic.services.DoctorService;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class AddDoctorDialog extends Window {
+
+    private final Logger logger = LogManager.getLogger();
 
     private VerticalLayout verticalLayout = new VerticalLayout();
     private Doctor doctor;
@@ -54,14 +58,17 @@ public class AddDoctorDialog extends Window {
                 doctor = new Doctor(name.getValue(), surname.getValue(), patronymic.getValue(), specialty.getValue());
                 doctorService.save(doctor);
                 dataProvider.getItems().add(doctor);
+                logger.info("Added Doctor: \"" + doctor + "\"");
                 dataProvider.refreshAll();
                 name.clear();
                 surname.clear();
                 patronymic.clear();
                 specialty.clear();
                 close();
-            }
-            else Notification.show("?"); //TODO ERROR
+            } else {
+                Notification.show("Check the correctness of the fields");
+                logger.error("Failed to add a doctor");
+        }
         });
     }
 }

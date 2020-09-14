@@ -2,6 +2,8 @@ package test_task.polyclinic.views;
 
 import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.ui.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import test_task.polyclinic.domain.Patient;
 import test_task.polyclinic.domain.Recipe;
@@ -15,6 +17,7 @@ public class PatientView extends VerticalLayout {
 
     private Grid<Patient> grid = new Grid<>(Patient.class);
     private HorizontalLayout buttonsLayout = new HorizontalLayout();
+    private final Logger logger = LogManager.getLogger();
 
     private Button add = new Button("Add");
     private Button delete = new Button("Delete");
@@ -60,6 +63,7 @@ public class PatientView extends VerticalLayout {
 
             if (selectedPatient != null) {
                     patientService.delete(selectedPatient);
+                    logger.info("Deleted patient: \"" + selectedPatient + "\"");
                     grid.setItems(patientService.findAll());
                     grid.getDataProvider().refreshAll();
             }

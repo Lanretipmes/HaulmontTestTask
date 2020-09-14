@@ -1,11 +1,11 @@
 package test_task.polyclinic.views;
 
 import com.vaadin.data.provider.ListDataProvider;
-import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.*;
 import com.vaadin.ui.components.grid.HeaderRow;
 import org.apache.commons.lang3.StringUtils;
-import test_task.polyclinic.domain.Priority;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import test_task.polyclinic.domain.Recipe;
 import test_task.polyclinic.services.DoctorService;
 import test_task.polyclinic.services.PatientService;
@@ -15,6 +15,7 @@ public class RecipeView extends VerticalLayout {
 
     private Grid<Recipe> grid = new Grid<>(Recipe.class);
     private HorizontalLayout buttonsLayout = new HorizontalLayout();
+    private final Logger logger = LogManager.getLogger();
 
     private Button add = new Button("Add");
     private Button delete = new Button("Delete");
@@ -72,6 +73,7 @@ public class RecipeView extends VerticalLayout {
 
             if (selectedRecipe != null) {
                     recipeService.delete(selectedRecipe);
+                logger.info("Deleted recipe: \"" + selectedRecipe + "\"");
                     grid.setItems(recipeService.findAll());
                     grid.getDataProvider().refreshAll();
             }

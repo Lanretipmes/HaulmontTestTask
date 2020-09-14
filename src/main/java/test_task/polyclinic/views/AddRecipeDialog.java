@@ -5,6 +5,8 @@ import com.vaadin.data.converter.StringToLongConverter;
 import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.data.validator.*;
 import com.vaadin.ui.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import test_task.polyclinic.domain.Doctor;
 import test_task.polyclinic.domain.Patient;
 import test_task.polyclinic.domain.Priority;
@@ -20,6 +22,7 @@ import java.time.LocalDate;
 public class AddRecipeDialog extends Window {
 
     private VerticalLayout verticalLayout = new VerticalLayout();
+    private final Logger logger = LogManager.getLogger();
 
     private TextArea description = new TextArea("Description");
     private ComboBox<Patient> patient = new ComboBox<>("Patient");
@@ -80,6 +83,7 @@ public class AddRecipeDialog extends Window {
                 recipe = new Recipe(description.getValue(), patient.getValue(), doctor.getValue(), creationDate.getValue(), Long.parseLong(validity.getValue()), priority.getValue());
                 recipeService.save(recipe);
                 dataProvider.getItems().add(recipe);
+                logger.info("Added Recipe: \"" + recipe + "\"");
                 dataProvider.refreshAll();
                 description.clear();
                 patient.clear();
@@ -87,8 +91,10 @@ public class AddRecipeDialog extends Window {
                 creationDate.clear();
                 close();
             }
-            else
-                Notification.show("Error"); //TODO specify
+            else {
+                Notification.show("Check the correctness of the fields");
+                logger.error("Failed to add a recipe");
+            }
         });
     }
 

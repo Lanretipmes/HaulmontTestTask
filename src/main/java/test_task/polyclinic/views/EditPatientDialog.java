@@ -5,11 +5,14 @@ import com.vaadin.data.ValidationException;
 import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.data.validator.BeanValidator;
 import com.vaadin.ui.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import test_task.polyclinic.domain.Patient;
 import test_task.polyclinic.services.PatientService;
 
 public class EditPatientDialog extends Window {
     private VerticalLayout verticalLayout = new VerticalLayout();
+    private final Logger logger = LogManager.getLogger();
 
     private TextField name = new TextField("Name");
     private TextField surname = new TextField("Surname");
@@ -53,15 +56,18 @@ public class EditPatientDialog extends Window {
                 try {
                     binder.writeBean(patient);
                     patientService.update(patient.getId(), patient);
+                    logger.info("Edited patient: \"" + patient + "\"");
                     grid.setItems(patientService.findAll());
                     grid.getDataProvider().refreshAll();
                     close();
                 } catch (ValidationException e) {
                     Notification.show("Check the correctness of the fields");
-                    e.printStackTrace();
+                    logger.error("Failed to update patient: \"" + patient + "\"", e);
                 }
-            } else
+            } else {
                 Notification.show("Check the correctness of the fields");
+                logger.error("Failed to update patient: \"" + patient + "\"");
+            }
         });
 
     }

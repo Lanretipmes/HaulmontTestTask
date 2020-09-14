@@ -4,16 +4,20 @@ import com.vaadin.data.Binder;
 import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.data.validator.BeanValidator;
 import com.vaadin.ui.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import test_task.polyclinic.domain.Patient;
 import test_task.polyclinic.services.PatientService;
 
 public class AddPatientDialog extends Window {
     private VerticalLayout verticalLayout = new VerticalLayout();
+    private final Logger logger = LogManager.getLogger();
 
     private TextField name = new TextField("Name");
     private TextField surname = new TextField("Surname");
     private TextField patronymic = new TextField("Patronymic");
     private TextField phone = new TextField("Phone");
+    private Patient patient;
 
     private Button add = new Button("Ok");
     private Button cancel = new Button("Cancel", event -> close());
@@ -46,9 +50,10 @@ public class AddPatientDialog extends Window {
 
         add.addClickListener(clickEvent -> {
             if (binder.isValid()) {
-                Patient newPatient = new Patient(name.getValue(), surname.getValue(), patronymic.getValue(), phone.getValue());
-                patientService.save(newPatient);
-                dataProvider.getItems().add(newPatient);
+                patient = new Patient(name.getValue(), surname.getValue(), patronymic.getValue(), phone.getValue());
+                patientService.save(patient);
+                logger.info("Added Patient: \"" + patient + "\"");
+                dataProvider.getItems().add(patient);
                 grid.getDataProvider().refreshAll();
                 dataProvider.refreshAll();
                 name.clear();
@@ -57,7 +62,10 @@ public class AddPatientDialog extends Window {
                 phone.clear();
                 close();
             }
-            else Notification.show("?"); //TODO ERROR
+            else {
+                Notification.show("Check the correctness of the fields");
+                logger.error("Failed to add a patient");
+            }
         });
 
     }

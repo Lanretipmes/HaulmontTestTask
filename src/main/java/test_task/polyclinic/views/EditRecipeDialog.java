@@ -8,6 +8,8 @@ import com.vaadin.data.validator.BeanValidator;
 import com.vaadin.data.validator.DateRangeValidator;
 import com.vaadin.data.validator.LongRangeValidator;
 import com.vaadin.ui.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import test_task.polyclinic.domain.Doctor;
 import test_task.polyclinic.domain.Patient;
 import test_task.polyclinic.domain.Priority;
@@ -21,6 +23,7 @@ import java.time.LocalDate;
 public class EditRecipeDialog extends Window {
 
     private VerticalLayout verticalLayout = new VerticalLayout();
+    private final Logger logger = LogManager.getLogger();
 
     private TextArea description = new TextArea("Description");
     private ComboBox<Patient> patient = new ComboBox<>("Patient");
@@ -82,17 +85,21 @@ public class EditRecipeDialog extends Window {
             {
                 try {
                     binder.writeBean(recipe);
+                    recipeService.update(recipe.getId(), recipe);
+                    logger.info("Edited recipe: \"" + recipe + "\"");
+                    grid.setItems(recipeService.findAll());
+                    grid.getDataProvider().refreshAll();
+                    close();
                 } catch (ValidationException e) {
                     Notification.show("Check the correctness of the fields");
-                    e.printStackTrace();
+                    logger.error("Failed to update recipe: \"" + recipe + "\"", e);
                 }
-                recipeService.update(recipe.getId(), recipe);
-                grid.setItems(recipeService.findAll());
-                grid.getDataProvider().refreshAll();
-                close();
+
             }
-            else
+            else {
                 Notification.show("Check the correctness of the fields");
+                logger.error("Failed to update recipe: \"" + recipe + "\"");
+            }
         });
     }
 

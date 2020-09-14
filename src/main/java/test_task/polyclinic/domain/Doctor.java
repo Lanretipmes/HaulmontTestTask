@@ -21,26 +21,24 @@ public class Doctor {
     private long id;
 
     @Size(min = 1, max = 50)
-//    @Type(type = "char")
     @Column(length = 50, name = "name")
     @NonNull private String name;
     @Size(min = 1, max = 50)
-//    @Type(type = "char")
     @Column(length = 50, name = "surname")
     @NonNull private String surname;
     @Size(min = 1, max = 50)
-//    @Type(type = "char")
     @Column(length = 50, name = "patronymic")
     @NonNull private String patronymic;
     @Enumerated(EnumType.STRING)
-//    @Type(type = "char")
     @Column(length = 50, name = "specialty")
     @NonNull private Specialty specialty;
     @OneToMany(mappedBy = "doctor", cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
     @ToString.Exclude
     private List<Recipe> recipes;
 
-    //TODO rewrite tostring
+    public String toString(){
+        return id + ": " + specialty + " " + surname + " " + name + " " + patronymic;
+    }
 
 }
 

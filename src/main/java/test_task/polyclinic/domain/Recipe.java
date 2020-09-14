@@ -16,7 +16,6 @@ import java.time.LocalDate;
 @Entity
 @Data
 @Table(name = "Recipe")
-//@Proxy(lazy=false)
 @RequiredArgsConstructor
 @NoArgsConstructor
 public class Recipe {
@@ -36,7 +35,6 @@ public class Recipe {
     @NonNull private LocalDate creationDate;
     @NonNull private long validity; //validity in months
     @Enumerated(EnumType.STRING)
-//    @Type(type = "char")
     @Column(length = 20, name = "priority")
     @NonNull private Priority priority;
 
