@@ -23,8 +23,13 @@ public class RecipeService {
             recipeRepo.save(recipe);
     }
 
+    @Transactional
     public void delete(Recipe recipe){
+
+        Hibernate.initialize(recipe.getPatient());
+        Hibernate.initialize(recipe.getDoctor());
         recipeRepo.delete(recipe);
+
     }
 
     @Transactional
@@ -46,6 +51,4 @@ public class RecipeService {
         out.forEach(recipe -> Hibernate.initialize(recipe.getPatient()));
         return out;
     }
-
-
 }

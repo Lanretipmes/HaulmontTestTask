@@ -22,7 +22,6 @@ public class MainView extends UI {
     @Autowired
     private RecipeService recipeService;
 
-
     @Override
     protected void init(VaadinRequest vaadinRequest) {
         VerticalLayout verticalLayout = new VerticalLayout();
@@ -40,6 +39,4 @@ public class MainView extends UI {
         tabSheet.addTab(doctorView, "Doctors");
         tabSheet.addTab(recipeView, "Recipes");
     }
-
-
 }

@@ -22,6 +22,7 @@ public class DoctorService {
         doctorRepo.save(doctor);
     }
 
+    @Transactional
     public void delete(Doctor doctor){
 
         doctorRepo.delete(doctor);

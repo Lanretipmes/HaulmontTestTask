@@ -4,11 +4,8 @@ import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.ui.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import test_task.polyclinic.domain.Patient;
 import test_task.polyclinic.domain.Recipe;
-import test_task.polyclinic.repos.PatientRepo;
-import test_task.polyclinic.repos.RecipeRepo;
 import test_task.polyclinic.services.PatientService;
 import test_task.polyclinic.services.RecipeService;
 

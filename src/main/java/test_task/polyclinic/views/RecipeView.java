@@ -22,6 +22,9 @@ public class RecipeView extends VerticalLayout {
     private Button edit = new Button("Edit");
     private Recipe selectedRecipe;
     private ListDataProvider<Recipe> dataProvider;
+    private TextField descriptionFilter = new TextField();
+    private TextField patientFilter = new TextField();
+    private TextField priorityFilter = new TextField();
 
     public RecipeView(RecipeService recipeService, PatientService patientService, DoctorService doctorService){
 
@@ -41,20 +44,16 @@ public class RecipeView extends VerticalLayout {
 
         HeaderRow filters = grid.appendHeaderRow();
 
-        //TODO rework
-
-        TextField descriptionFilter = new TextField();
+        patientFilter.addValueChangeListener(event -> dataProvider.addFilter(recipe -> StringUtils.containsIgnoreCase(recipe.getPatient().toString(), patientFilter.getValue())));
         descriptionFilter.addValueChangeListener(event -> dataProvider.addFilter(recipe -> StringUtils.containsIgnoreCase(recipe.getDescription(), descriptionFilter.getValue())));
+        priorityFilter.addValueChangeListener(event -> dataProvider.addFilter(recipe -> StringUtils.containsIgnoreCase(String.valueOf(recipe.getPriority()), priorityFilter.getValue())));
+
         filters.getCell("description").setComponent(descriptionFilter);
         descriptionFilter.setSizeFull();
 
-        TextField patientFilter = new TextField();
-        patientFilter.addValueChangeListener(event -> dataProvider.addFilter(recipe -> StringUtils.containsIgnoreCase(recipe.getPatient().toString(), patientFilter.getValue())));
         filters.getCell("patient").setComponent(patientFilter);
         patientFilter.setSizeFull();
 
-        TextField priorityFilter = new TextField();
-        priorityFilter.addValueChangeListener(event -> dataProvider.addFilter(recipe -> StringUtils.containsIgnoreCase(String.valueOf(recipe.getPriority()), priorityFilter.getValue())));
         filters.getCell("priority").setComponent(priorityFilter);
         priorityFilter.setSizeFull();
 
