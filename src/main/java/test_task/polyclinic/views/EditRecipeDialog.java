@@ -45,21 +45,26 @@ public class EditRecipeDialog extends Window {
         setModal(true);
 
         setContent(verticalLayout);
+        verticalLayout.setWidth("300px");
+        description.setSizeFull();
         verticalLayout.addComponent(description);
 
         patient.setItems(patientService.findAll());
-        patient.setItemCaptionGenerator(patient1 -> patient1.getId() + " " + patient1.getSurname() + " " +
-                patient1.getName() + " " + patient1.getPatronymic());
+        patient.setSizeFull();
         verticalLayout.addComponent(patient);
 
         doctor.setItems(doctorService.findAll());
-        doctor.setItemCaptionGenerator(doctor1 -> doctor1.getId() + " " + doctor1.getSpecialty() + " " +
-                doctor1.getSurname() + " " + doctor1.getName());
+        doctor.setSizeFull();
         verticalLayout.addComponent(doctor);
 
+        creationDate.setSizeFull();
         verticalLayout.addComponent(creationDate);
+
+        validity.setSizeFull();
         verticalLayout.addComponent(validity);
+
         priority.setItems(Priority.values());
+        priority.setSizeFull();
         verticalLayout.addComponent(priority);
 
         buttonsLayout.addComponent(edit);
