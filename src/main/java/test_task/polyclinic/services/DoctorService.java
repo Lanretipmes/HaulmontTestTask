@@ -1,8 +1,10 @@
 package test_task.polyclinic.services;
 
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import test_task.polyclinic.domain.Doctor;
+import test_task.polyclinic.domain.Recipe;
 import test_task.polyclinic.repos.DoctorRepo;
 
 import javax.persistence.EntityNotFoundException;
@@ -40,6 +42,8 @@ public class DoctorService {
 
     @Transactional
     public List<Doctor> findAll(){
+        List<Doctor> out = doctorRepo.findAll();
+        out.forEach(doctor -> Hibernate.initialize(doctor.getRecipes()));
         return doctorRepo.findAll();
     }
 }

@@ -29,7 +29,7 @@ public class Doctor {
     @Enumerated(EnumType.STRING)
     @Column(length = 50, name = "specialty")
     @NonNull private Specialty specialty;
-    @OneToMany(mappedBy = "doctor", cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "doctor", cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
     @ToString.Exclude
     private List<Recipe> recipes;
 

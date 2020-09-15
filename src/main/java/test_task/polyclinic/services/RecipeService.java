@@ -45,8 +45,7 @@ public class RecipeService {
 
     @Transactional
     public List<Recipe> findAll(){
-        List<Recipe> out;
-        out = recipeRepo.findAll();
+        List<Recipe> out = recipeRepo.findAll();
         out.forEach(recipe -> Hibernate.initialize(recipe.getDoctor()));
         out.forEach(recipe -> Hibernate.initialize(recipe.getPatient()));
         return out;
