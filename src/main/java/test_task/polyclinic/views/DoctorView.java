@@ -21,10 +21,11 @@ public class DoctorView extends VerticalLayout {
     private Button edit = new Button("Edit");
     private Button statistics = new Button("Statistics");
     private Doctor selectedDoctor;
+    private ListDataProvider<Doctor> dataProvider;
 
     public DoctorView(DoctorService doctorService, RecipeService recipeService){
 
-        ListDataProvider<Doctor> dataProvider = new ListDataProvider<>(doctorService.findAll());
+        dataProvider = new ListDataProvider<>(doctorService.findAll());
 
         addComponent(grid);
 
@@ -70,6 +71,8 @@ public class DoctorView extends VerticalLayout {
                     logger.info("Deleted doctor: \"" + selectedDoctor + "\"");
                     grid.setItems(doctorService.findAll());
                     grid.getDataProvider().refreshAll();
+            } else {
+                Notification.show("No doctor selected");
             }
         });
 
@@ -79,7 +82,7 @@ public class DoctorView extends VerticalLayout {
             if (doctor != null) {
                 getUI().addWindow(new EditDoctorDialog(grid, doctorService, doctor));
             } else {
-                Notification.show("Select line");
+                Notification.show("No doctor selected");
             }
         });
     }

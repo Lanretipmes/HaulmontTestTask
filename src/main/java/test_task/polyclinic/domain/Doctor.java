@@ -1,8 +1,6 @@
 package test_task.polyclinic.domain;
 
 import lombok.*;
-import org.hibernate.annotations.Proxy;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -11,7 +9,6 @@ import java.util.List;
 @Entity
 @Data
 @Table(name = "Doctor")
-//@Proxy(lazy=false)
 @RequiredArgsConstructor
 @NoArgsConstructor
 public class Doctor {
@@ -32,7 +29,7 @@ public class Doctor {
     @Enumerated(EnumType.STRING)
     @Column(length = 50, name = "specialty")
     @NonNull private Specialty specialty;
-    @OneToMany(mappedBy = "doctor", cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "doctor", cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
     @ToString.Exclude
     private List<Recipe> recipes;
 

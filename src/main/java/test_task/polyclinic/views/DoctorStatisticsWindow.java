@@ -26,7 +26,7 @@ public class DoctorStatisticsWindow extends Window {
         layout.setWidth("1000px");
         grid.setDataProvider(dataProvider);
         grid.setSizeFull();
-        grid.addColumn(doctor -> doctor.getSpecialty() + " " + doctor.getSurname() + " " + doctor.getSurname()).setCaption("Doctor");
+        grid.addColumn(doctor -> doctor.getId() + ": " + doctor.getSpecialty() + " " + doctor.getSurname() + " " + doctor.getSurname()).setCaption("Doctor");
         grid.addColumn(doctor -> doctor.getRecipes().size()).setCaption("Amount of recipes");
 
     }

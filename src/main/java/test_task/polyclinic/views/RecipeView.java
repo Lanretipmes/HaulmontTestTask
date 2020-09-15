@@ -41,6 +41,8 @@ public class RecipeView extends VerticalLayout {
         grid.setSizeFull();
         grid.setColumnOrder("id", "description", "patient", "doctor", "creationDate", "expireDate", "validity", "priority");
         grid.setSelectionMode(Grid.SelectionMode.SINGLE);
+        grid.getColumn("description").setWidth(600);
+        grid.getColumn("priority").setWidth(120);
 
         HeaderRow filters = grid.appendHeaderRow();
 
@@ -63,7 +65,6 @@ public class RecipeView extends VerticalLayout {
         );
 
         grid.addItemClickListener(itemClick -> {
-                    delete.setEnabled(true);
                     selectedRecipe = itemClick.getItem();
                 }
         );
@@ -75,6 +76,8 @@ public class RecipeView extends VerticalLayout {
                 logger.info("Deleted recipe: \"" + selectedRecipe + "\"");
                     grid.setItems(recipeService.findAll());
                     grid.getDataProvider().refreshAll();
+            } else {
+                Notification.show("No recipe selected");
             }
         });
 
@@ -83,7 +86,7 @@ public class RecipeView extends VerticalLayout {
             if (selectedRecipe != null) {
                 getUI().addWindow(new EditRecipeDialog(grid, recipeService, doctorService, patientService, selectedRecipe));
             } else {
-                Notification.show("Select line");
+                Notification.show("No patient selected");
             }
         });
     }

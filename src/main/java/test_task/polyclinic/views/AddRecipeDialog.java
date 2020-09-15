@@ -15,8 +15,6 @@ import test_task.polyclinic.services.DoctorService;
 import test_task.polyclinic.services.PatientService;
 import test_task.polyclinic.services.RecipeService;
 
-import java.math.BigInteger;
-import java.sql.Timestamp;
 import java.time.LocalDate;
 
 public class AddRecipeDialog extends Window {

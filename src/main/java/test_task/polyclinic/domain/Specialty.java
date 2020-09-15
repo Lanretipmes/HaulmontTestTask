@@ -5,5 +5,6 @@ public enum Specialty {
     THERAPIST,
     OPHTHALMOLOGIST,
     NEUROLOGIST,
-    SURGEON
+    SURGEON,
+    PSYCHIATRIST
 }

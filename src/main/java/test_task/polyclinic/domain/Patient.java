@@ -9,7 +9,6 @@ import java.util.List;
 
 @Entity
 @Data
-@ToString()
 @Table(name = "Patient")
 @RequiredArgsConstructor
 @NoArgsConstructor
@@ -35,6 +34,6 @@ public class Patient {
     private List<Recipe> recipes;
 
     public String toString(){
-        return id + ": " + surname + " " + name + " " + patronymic + " " + phone;
+        return id + ": " + surname + " " + name + " " + patronymic;
     }
 }

@@ -34,8 +34,6 @@ public class PatientService {
         patient.setPhone(newPatient.getPhone());
     }
 
-    //TODO rewrite
-
     @Transactional
     public List<Patient> findAll(){
         return patientRepo.findAll();

@@ -20,10 +20,11 @@ public class PatientView extends VerticalLayout {
     private Button delete = new Button("Delete");
     private Button edit = new Button("Edit");
     private Patient selectedPatient;
+    private ListDataProvider<Patient> dataProvider;
 
     public PatientView(PatientService patientService, RecipeService recipeService) {
 
-        ListDataProvider<Patient> dataProvider = new ListDataProvider<>(patientService.findAll());
+        dataProvider = new ListDataProvider<>(patientService.findAll());
 
         addComponent(grid);
 
@@ -42,6 +43,7 @@ public class PatientView extends VerticalLayout {
                     getUI().addWindow(new AddPatientDialog(dataProvider, grid, patientService));
                 }
         );
+
         grid.addItemClickListener(itemClick -> {
             delete.setEnabled(true);
             selectedPatient = itemClick.getItem();
@@ -56,6 +58,7 @@ public class PatientView extends VerticalLayout {
             }
             }
         );
+
         delete.addClickListener(clickEvent -> {
 
             if (selectedPatient != null) {
@@ -63,6 +66,8 @@ public class PatientView extends VerticalLayout {
                     logger.info("Deleted patient: \"" + selectedPatient + "\"");
                     grid.setItems(patientService.findAll());
                     grid.getDataProvider().refreshAll();
+            } else {
+                Notification.show("No patient selected");
             }
         });
 
@@ -71,7 +76,7 @@ public class PatientView extends VerticalLayout {
             if (selectedPatient != null) {
                 getUI().addWindow(new EditPatientDialog(grid, patientService, selectedPatient));
             } else {
-                Notification.show("Select line");
+                Notification.show("No patient selected");
             }
         });
     }

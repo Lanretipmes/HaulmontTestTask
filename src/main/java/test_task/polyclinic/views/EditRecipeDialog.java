@@ -32,7 +32,6 @@ public class EditRecipeDialog extends Window {
     private TextField validity = new TextField("Valid for (months)");
     private ComboBox<Priority> priority = new ComboBox<>("Priority");
     private Binder<Recipe> binder = new Binder<>(Recipe.class);
-    private Recipe recipe;
 
     private Button edit = new Button("Ok");
     private Button cancel = new Button("Cancel", event -> close());
