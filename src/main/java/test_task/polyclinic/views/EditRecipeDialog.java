@@ -71,7 +71,7 @@ public class EditRecipeDialog extends Window {
         binder.forField(creationDate).withValidator(new DateRangeValidator("Invalid Date", LocalDate.now().minusYears(1), LocalDate.now())).
                 bind(Recipe::getCreationDate, Recipe::setCreationDate);
         binder.forField(validity).withConverter(new StringToLongConverter("Not a number")).
-                withValidator(new LongRangeValidator("Invalid validity", 1L, 12L)).
+                withValidator(new LongRangeValidator("Validity is out of range", 1L, 12L)).
                 bind(Recipe::getValidity, Recipe::setValidity);
         binder.forField(priority).withValidator(new BeanValidator(Recipe.class, "priority")).bind(Recipe::getPriority, Recipe::setPriority);
 
